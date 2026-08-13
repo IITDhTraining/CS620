@@ -1,0 +1,23 @@
+PROGRAM test
+BEGIN
+	INT a,b,c,x,y,z,h,j,k;
+  FUNCTION INT main()
+	BEGIN
+	STRING str:="Hello";
+	a := 1; b:=2;
+	IF (a = b)
+	    j := 0;
+	    WHILE (j <= 10)
+		     a := j;
+		     j := j+1;
+	    ENDWHILE
+	ENDIF
+	RETURN a+b;
+	END
+END
+
+
+
+
+
+
