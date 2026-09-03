@@ -8,6 +8,6 @@ with open("matmul_cmplx.py", "r") as f:
 tree = ast.parse(source)
 
 #exercise: how do you dump the line numbers along with AST nodes?
-print(ast.dump(tree, indent=4))
+print(ast.dump(tree, indent=4, include_attributes=True))
 
 
