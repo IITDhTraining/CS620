@@ -1,12 +1,16 @@
-# This codebase contains examples showing loop unrolling and fusion in LLVM.
--`make looppeel` to see loop unrolling with `looppeel.c` present in the `test` directory. Change `x=y` to `x=y+1` in the `looppeel.c` and observe the changes.
+# (Optimizing Transformations)
 
--`make looppeel2` to see loop unrolling with `looppeel.c` present in the `test` directory. In this example you can see that the loop body is rid of conditionals (if-else).
+This directory contains slides and code demos on loop optimizations. In particular, on loop unrolling and loop fusion. 
 
-- `make unroll1` to see that unrolling takes effect with inlining of a function. In this example, `unroll1.c` present in the `test` directory is used. 
+## II. Examples 
+- `make looppeel`. To see that few iterations of a loop are moved before the loop to eliminate phi nodes. Observe the absence of phi nodes in the CFGs generated after (`looppeel_after_peeling.png`) and before(`looppeel_before_peeling.png`) the transformation. `looppeel.c` is the sample program considered and it is expected that after 4 iterations only the phi node corresponding to induction variable i remains (phi nodes for `x`, `y`, `a` are all eliminated). 
 
-- `make unroll2` to see unrolling being done dynamically at runtime. You can specify arguments to LLVM's `opt` specifying unroll count, the number of iterations to unroll.
- 
-- Change directory to `Loop\_Fusion` and  `make run` produces unoptimized LLVM IR for a sample program, `loopfusion.c`, translates this to optimized version using the `mem2reg` pass, then chains a sequence of optimizations (including `loop-fusion`) and passes them to the `opt` pass pipeline to produce the IR with fused loops in `loop_fused.ll`.
+**exercise**: change `x=y` in `looppeel.c` to `x=y+1`. Why does'nt the phi node get eliminated?
 
-Also, `.png` files for CFG corresponding to unoptimized and fused LLVM IR are produced.
+- `make looppeel2`. This is another example for loop peeling, where the if condition is eliminated. `looppeel2.c` is considered as the program on which transformation is done. You can see in `looppeel2_after_peeling.png` that the `if` block gets eliminated from the loop body and the corresponding block gets moved before the loop. 
+
+- `make unroll1`. To see how inlining of a function allows for unrolling a loop and that (force) unrolling before inlining may miss opportunities and may even lead to incorrect results. To inline the function in `unroll1.c`, follow the instruction mentioned in comment. 
+
+- `make unroll2`. To see how runtime unrolling is done and an unroll factor is specified. The program `unroll2.c` is considered and 4 iterations of the loop are unrolled. 
+
+- Goto loopfusion directory and follow the instructions in the README. This shows how to use the available `loop-fusion` pass to perform loop-fusion.
